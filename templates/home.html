@@ -1,0 +1,31 @@
+<!doctype html>
+<title>Hello from Flask</title>
+{% if body %}
+<div>
+    <div>
+    <h2> Insira aqui seu review: </h2>
+    <form action="" method="post">
+        <textarea name="reviewBody" rows="10" cols="50">{{body}}</textarea>
+        <br/><input type='submit' value='send' />
+    </form>
+    </div>
+    <h2> Seu review: </h2>
+    {{body}}
+    <br/>
+    {% if isSpam %}
+    <h3>Classificacao: <span style="color:red"> Spam! </span></h3>
+    {% else %}
+    <h3>Classificacao: <span style="color:green"> Not spam! </span></h3>
+    {% endif %}
+</div>
+{%else%}
+<div>
+    <h2> Insira aqui seu review: </h2>
+    <form action="" method="post">
+        <textarea name="reviewBody" rows="10" cols="50"> Escreva aqui seu review...</textarea>
+        <br/><input type='submit' value='send' />
+    </form>
+</div>
+</div>
+{% endif %}
+

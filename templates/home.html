@@ -12,11 +12,19 @@
     <h2> Seu review: </h2>
     {{body}}
     <br/>
+    {% if isCertain %}
     {% if isSpam %}
-    <h3>Classificacao: <span style="color:red"> Spam! </span></h3>
+    <h3>Classificacao: <span style="color:red"> SPAM! </span></h3>
     {% else %}
-    <h3>Classificacao: <span style="color:green"> Not spam! </span></h3>
+    <h3>Classificacao: <span style="color:green"> Não spam. </span></h3>
     {% endif %}
+    {% else %}
+    <h3>Classificacao: <span style="color:yellow"> Incerto. </span></h3>
+    {% endif %}
+    <h4>
+        Nível de certeza da classificação: {{probSpam}} <br/>
+    </h4>
+
 </div>
 {%else%}
 <div>

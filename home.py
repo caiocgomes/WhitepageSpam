@@ -1,45 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, render_template, request
-from initClassifier import clf as classifier
-from mongoLogger import mngLogger
+from homePage import HomePage
+from analise import Analise
+from flaskext.markdown import Markdown
 
 app = Flask(__name__)
+Markdown(app)
 
-class HomePage(object):
-    def __init__(self, classificationThreshold = 0.15):
-        self.template = 'home.html'
-        self.thres = classificationThreshold
-
-    def render(self, body = None):
-        if body is not None:
-            renderVariables = self.getVariables(body)
-            mngLogger.log(renderVariables)
-        else:
-            renderVariables = {}
-        return render_template(self.template, **renderVariables)
-
-    def getVariables(self, body):
-        p = self.spamProbability(body)
-        return {'isSpam': self.isSpam(p),
-                'isCertain': self.isCertain(p),
-                'body': body,
-                'probSpam': p}
-
-    def spamProbability(self, string):
-        return classifier.predict_proba([string])[0][1]
-
-    def isCertain(self, p):
-        isUncertain = (0.5 - self.thres) < p < (0.5 + self.thres)
-        return (not isUncertain)
-
-    def isSpam(self, p):
-        if self.isCertain(p):
-            return (p > 0.5)
-        else:
-            return False
-
-homePage = HomePage()
+homePage = HomePage(renderer = render_template)
+analisador = Analise(renderer=render_template)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -50,6 +20,16 @@ def home():
         print e
         return homePage.render()
 
+@app.route('/analise', methods=['GET', 'POST'])
+def analise():
+    try:
+        body = request.form['body']
+        return analisador.render(body)
+    except KeyError, e:
+        print e
+        return analisador.render()
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
 

@@ -1,0 +1,28 @@
+{% filter markdown %}
+Analisador
+==========
+<form action="" method="post">
+    <textarea name="body" rows="10" cols="50">{{body}}</textarea>
+    <br/><input type='submit' value='send' />
+</form>
+
+
+Seu review
+----------
+
+Text body:
+
+{{body}}
+
+
+Prob.:{{probSpam}}
+
+{% for item in series %}
+    * {{item['body']}}
+        * Excluded word: {{item['excluded']}}
+        * Spam: {{item['msg']}}
+        * Prob.: {{item['prob']}}
+        * Delta: {{item['delta']}}
+{% endfor %}
+
+{% endfilter %}

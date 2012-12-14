@@ -1,16 +1,18 @@
 <!doctype html>
-<title>Hello from Flask</title>
+<title>Spam Filter - Home</title>
 {% if body %}
-<div>
     <div>
-    <h2> Insira aqui seu review: </h2>
-    <form action="" method="post">
-        <textarea name="reviewBody" rows="10" cols="50">{{body}}</textarea>
-        <br/><input type='submit' value='send' />
-    </form>
-    </div>
-    <h2> Seu review: </h2>
-    {{body}}
+        <div>
+            <h2> Insira aqui seu review: </h2>
+            <form action="" method="post">
+                <textarea name="reviewBody" rows="10" cols="50">{{body}}</textarea>
+                <br/><input type='submit' value='send' />
+            </form>
+        </div>
+        <div>
+            <h2> Seu review: </h2>
+            {{body}}
+        </div>
     <br/>
     {% if isCertain %}
     {% if isSpam %}

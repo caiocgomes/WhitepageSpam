@@ -1,5 +1,4 @@
-import pymongo
-import datetime
+import json
 
 class MongoLogger(object):
     def __init__(self, colname = 'spam'):
@@ -7,7 +6,6 @@ class MongoLogger(object):
         self.col = self.conn.logger[colname]
 
     def log(self, doc):
-        timestamp = datetime.datetime.now()
         doc.update({'timestamp': timestamp})
         self.col.insert(doc)
 

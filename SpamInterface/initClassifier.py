@@ -1,8 +1,11 @@
 import cPickle as pickle
-
+import unicodedata
 
 def countNumber(text):
-    return sum([text.count(i) for i in range(10)])
+    return sum([text.count(str(i)) for i in range(10)])
+
+def strip_accents(s):
+   return ''.join((c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn'))
 
 class Classifier(object):
     def __init__(self, *args, **kwargs):
@@ -15,28 +18,45 @@ class Classifier(object):
         self.clfmix  = pickle.load(open('CLFS/misto30mil-duplo.clf', 'rb'))
 
     def clfUser(self, numPois, numAvaliacoes, numFotos):
-        return self.clfuser.predict_proba([numPois, numAvaliacoes, numFotos])[1]
+        prob = self.clfuser.predict_proba([numPois, numAvaliacoes, numFotos])
+        print prob.shape, prob
+        return prob[0][1]
 
     def clfPoi(self, numAvaliacoes, rating, thumbsUp):
-        return self.clfPoi.predict_proba([numAvaliacoes, rating, thumbsUp])[1]
+        prob = self.clfpoi.predict_proba([numAvaliacoes, rating, thumbsUp])
+        print prob.shape, prob
+        return prob[0][1]
 
     def clfBigram(self, text):
-        return self.clfbig.predict_proba(text)[1]
+        prob = self.clfbig.predict_proba([text])
+        print prob.shape, prob
+        return prob[0][1]
 
     def clfTxt(self, text):
-        return self.clftxt.predict_proba(text)
+        prob = self.clftxt.predict_proba([text])
+        print prob.shape, prob
+        return prob[0][1]
 
     def clfReview(self, denuncia, numLikes, text):
         vec = [denuncia, len(text), numLikes, countNumber(text)]
-        return self.clfrev.predict_proba(vec)[1]
+        prob = self.clfrev.predict_proba(vec)
+        print prob
+        return prob[0][1]
 
     def clfMixto(self, text, denuncia, numLikes, usrNumPois, usrNumAvaliacoes, usrNumFotos, poiNumAvaliacoes, poiRating, poiThumbsUp):
-        vec = [self.clfTxt(text),
-               self.clfBigram(text),
-               self.clfReview(denuncia, numLikes, text),
+        uniText = strip_accents(text.decode('utf-8'))
+        print "==============================================================================================="
+        print (uniText)
+        print "==============================================================================================="
+
+        vec = [self.clfTxt(uniText),
+               self.clfBigram(uniText),
+               self.clfReview(denuncia, numLikes, uniText),
                self.clfUser(usrNumPois, usrNumAvaliacoes, usrNumFotos),
                self.clfPoi(poiNumAvaliacoes, poiRating, poiThumbsUp)]
-        return self.clfmix.predict_proba(vec)[1]
+        prob = self.clfmix.predict_proba(vec)
+        print prob.shape, prob
+        return prob[0][1]
 
 
 

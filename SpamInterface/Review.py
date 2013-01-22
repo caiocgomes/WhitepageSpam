@@ -8,7 +8,7 @@ class Review(Oracle):
         self.review_id = review_id
         self.usuario_id = usuario_id
         self.lbs_id = lbs_id
-        self.comentario = comentario
+        self.comentario = comentario if classificacao != 'REJECTED' else comentario_old
         self.numLikes = numlikes
         self.titulo = titulo if titulo is not None else ''
         self.denuncia = denuncia if denuncia is not None else 0

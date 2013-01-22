@@ -10,7 +10,7 @@ class ReviewGetter(Oracle):
         print "done!"
 
     def getAllReviewIds(self):
-        query = "SELECT review_id FROM meu_apnt_v6.tbl_review  WHERE classificacao is null"
+        query = "SELECT review_id FROM meu_apnt_v6.tbl_review" #" WHERE classificacao is not null"
         self.reviewIds = [rid[0] for rid in self.query(query)]
 
     def popRandomReviewId(self):

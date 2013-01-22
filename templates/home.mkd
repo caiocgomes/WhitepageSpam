@@ -11,44 +11,27 @@
 #Novo review
 ## Texto do review:
 (reviewId: {{review_id}})
+
 <blockquote>
 ###{{titulo}}<br/>
 <p>{{comentario}}</p>
 Usuário: {{userNome}}
 </blockquote>
+
 <br><p>
 ## Detalhes do POI:
-<a href="http://www.apontador.com.br/local/rj/niteroi/cursos_e_aulas_particulares/{{lbs_id}}/foo.html">{{lbs_id}} - {{poiTitulo}}</a><br/>
+<a href="http://www.apontador.com.br/local/poi/{{lbs_id}}.html"> {{lbs_id}} - {{poiTitulo}}</a><br/>
 Categoria: {{poiCat}}<br/>
 Subcategoria: {{poiSubCat}}<br/>
 
 <form action="" method="post">
     <div align = "center">
     Este review:
-    {% if isSpam %}
-        <input type="radio" name="IsSpam" value="False"> Não é Spam
-        <input type="radio" name="IsSpam" value="True" checked> É Spam
-    {% else %}
         <input type="radio" name="IsSpam" value="False" checked> Não é Spam
         <input type="radio" name="IsSpam" value="True"> É Spam
-    {% endif %}
     <input type='submit' value='enviar' />
     </div>
 </form>
-
-
-
-{% if answer %}
-#Review anterior
-(review_id: {{oldReview_id}})<br/>
-Classificação do Moderador:
-    {% if moderatorAnswer %}<span style="color:red"> SPAM! </span> {% else %} <span style="color:green"> NÃO SPAM. </span> {% endif %}<br/>
-Classificação do Algoritmo:
-    {% if algoAnswer %}<span style="color:red"> SPAM! </span> {% else %} <span style="color:green"> NÃO SPAM. </span> {% endif %}<br/>
-
-{% endif %}
-
-
 
 
 {% endfilter %}

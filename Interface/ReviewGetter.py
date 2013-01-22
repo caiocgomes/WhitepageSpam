@@ -5,9 +5,6 @@ from random import choice
 class ReviewGetter(Oracle):
     def __init__(self, *args, **kwargs):
         super(ReviewGetter, self).__init__(*args, **kwargs)
-        print "Loading reviews...",
-        self.getAllReviewIds()
-        print "done!"
 
     def getAllReviewIds(self):
         query = "SELECT review_id FROM meu_apnt_v6.tbl_review" #" WHERE classificacao is not null"

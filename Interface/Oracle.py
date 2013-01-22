@@ -20,7 +20,3 @@ class Oracle(object):
     def fetchOne(self, querystring):
         cursor = self.query(querystring)
         return cursor.fetchone()
-
-    def callProcedure(self, procname, *args):
-        cursor = cx_Oracle.Cursor(self.con)
-        cursor.callproc(procname, args)
